@@ -37,9 +37,22 @@ public class GeoDistance {
         return s;
     }
 
-    public static Point leftOf(Point point, int km) {
+    public static Point left(Point point, int km) {
         return null;
     }
+
+    public static Point right(Point point, int km) {
+        return null;
+    }
+
+    public static Point above(Point point, int km) {
+        return null;
+    }
+
+    public static Point under(Point point, int km) {
+        return null;
+    }
+
 
     public static void main(String[] args) {
         Point p1 = new Point(104.065903,30.650077);
