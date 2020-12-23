@@ -1,7 +1,5 @@
 package com.zlh.catalog.geo;
 
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 
 public class GeoDistance {
@@ -17,7 +15,7 @@ public class GeoDistance {
      *
      * @param p1
      * @param p2
-     * @return
+     * @return 距离，单位公里
      */
     public static double getDistance(Point p1, Point p2) {
         double lng1 = p1.getX();
@@ -32,32 +30,47 @@ public class GeoDistance {
                 Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
         s = s * EARTH_RADIUS;
         s = Math.round(s);
-        Distance distance = new Distance(s, Metrics.KILOMETERS);
-        System.out.println(distance);
         return s;
     }
 
+    public static double longitudeDiffPerKM(Point point) {
+        double baseline = 0.1;
+        Point pointRight = new Point(point.getX() + baseline, point.getY());
+        double km = getDistance(point, pointRight);
+        double diff = baseline / km;
+        System.out.println("纬度差 " + baseline + ", 距离 " + km + ", 每千米差 " + diff);
+        return diff;
+    }
+
+    public static double latitudeDiffPerKM(Point point) {
+        double baseline = 0.1;
+        Point pointAbove = new Point(point.getX(), point.getY() + baseline);
+        double km = getDistance(point, pointAbove);
+        double diff = baseline / km;
+        System.out.println("经度差 " + baseline + ", 距离 " + km + ", 每千米差 " + diff);
+        return diff;
+    }
+
     public static Point left(Point point, int km) {
-        return null;
+        return new Point(point.getX() - longitudeDiffPerKM(point), point.getY());
     }
 
     public static Point right(Point point, int km) {
-        return null;
+        return new Point(point.getX() + longitudeDiffPerKM(point), point.getY());
     }
 
     public static Point above(Point point, int km) {
-        return null;
+        return new Point(point.getX(), point.getY() + latitudeDiffPerKM(point));
     }
 
-    public static Point under(Point point, int km) {
-        return null;
+    public static Point below(Point point, int km) {
+        return new Point(point.getX(), point.getY() - latitudeDiffPerKM(point));
     }
-
 
     public static void main(String[] args) {
-        Point p1 = new Point(104.065903,30.650077);
-        Point p2 = new Point(104.066246,30.640625);
-        Point p3 = new Point(106.500512,29.590176);
-        System.out.println(getDistance(p1, p3));
+        Point p1 = new Point(104.066074,30.649986); //成都， 锦江宾馆地铁
+        Point below = below(p1, 1); //往南一公里
+        System.out.println("Point below " + below.getX() + ", " + below.getY());
+        //104.066074, 30.64089509090909
     }
 }
