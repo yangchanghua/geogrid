@@ -1,5 +1,6 @@
 package com.zlh.catalog.geo;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +15,21 @@ public class GeoGridServiceTest {
     private GeoGridService geoGridService;
 
     @Test
-    public void generatedGridShouldCoverTheCity() {
+    public void generatedGridShouldHaveCorrectCount() {
         Point center = new Point(104.065774,30.657362); //成都， 天府广场
-        List<GeoGrid> grids = geoGridService.generateGridForCity(center, 10)
+        int cnt = 20;
+        List<GeoGrid> grids = geoGridService.generateGridForCity(center, 2, 10, cnt);
+        Assertions.assertNotNull(grids);
+        Assertions.assertEquals(cnt * cnt, grids.size());
+    }
+
+    @Test
+    public void generatedGridShouldHaveCorrectSize() {
+        //生成的网格应该有正确的大小
+    }
+
+    @Test
+    public void GivenPointShouldBeLocatedAtCorrectGrid() {
+        //给定一个point，应该找到其所在的grid
     }
 }

@@ -8,8 +8,12 @@ import java.util.List;
 public class GeoGridServiceImpl implements GeoGridService {
 
     @Override
-    public List<GeoGrid> generateGridForCity(Point center,
-                                             int gridSize, int width, int height) {
+    public List<GeoGrid> generateGridForCity(Point center, int gridSize, int outerPadding, int cnt) {
+        return null;
+    }
+
+    @Override
+    public GeoGrid locateAt(Point point) {
         return null;
     }
 }

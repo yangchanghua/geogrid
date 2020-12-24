@@ -10,6 +10,8 @@ import org.springframework.data.geo.Polygon;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GeoGrid {
-    private Point leftBottom;
-    private Point rightTop;
+    private Point topLeft;
+    private Point bottomRight;
+    private Point outerTL;
+    private Point outerBR;
 }
