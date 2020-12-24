@@ -18,9 +18,10 @@ public class GeoGridServiceTest {
     public void generatedGridShouldHaveCorrectCount() {
         Point center = new Point(104.065774,30.657362); //成都， 天府广场
         int cnt = 20;
+        int rows = cnt * 2 + 1;
         List<GeoGrid> grids = geoGridService.generateGridForCity(center, 2, 10, cnt);
         Assertions.assertNotNull(grids);
-        Assertions.assertEquals(cnt * cnt, grids.size());
+        Assertions.assertEquals(rows * rows, grids.size());
     }
 
     @Test

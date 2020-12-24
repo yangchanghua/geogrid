@@ -29,7 +29,6 @@ public class GeoDistance {
         double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
                 Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
         s = s * EARTH_RADIUS;
-        s = Math.round(s);
         return s;
     }
 
@@ -51,20 +50,24 @@ public class GeoDistance {
         return diff;
     }
 
-    public static Point left(Point point, int km) {
-        return new Point(point.getX() - longitudeDiffPerKM(point), point.getY());
+    public static Point pointWithDistance(Point point, double lngDelta, double latDelta) {
+        return new Point(point.getX() + longitudeDiffPerKM(point) * lngDelta, point.getY() + longitudeDiffPerKM(point) * latDelta);
     }
 
-    public static Point right(Point point, int km) {
-        return new Point(point.getX() + longitudeDiffPerKM(point), point.getY());
+    public static Point left(Point point, double km) {
+        return new Point(point.getX() - longitudeDiffPerKM(point) * km, point.getY());
     }
 
-    public static Point above(Point point, int km) {
-        return new Point(point.getX(), point.getY() + latitudeDiffPerKM(point));
+    public static Point right(Point point, double km) {
+        return new Point(point.getX() + longitudeDiffPerKM(point) * km, point.getY());
     }
 
-    public static Point below(Point point, int km) {
-        return new Point(point.getX(), point.getY() - latitudeDiffPerKM(point));
+    public static Point above(Point point, double km) {
+        return new Point(point.getX(), point.getY() + latitudeDiffPerKM(point) * km);
+    }
+
+    public static Point below(Point point, double km) {
+        return new Point(point.getX(), point.getY() - latitudeDiffPerKM(point) * km);
     }
 
     public static void main(String[] args) {
